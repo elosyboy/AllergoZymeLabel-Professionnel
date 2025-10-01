@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Espace Professionnel - AllergoZyme Label</title>
+  <link rel="stylesheet" href="style-principal.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <img src="assets/logo-allergozyme.png" alt="Logo AllergoZyme" class="logo">
+    <h1 id="restaurantName">Nom de l’établissement</h1>
+  </header>
+
+  <main class="container">
+    <h2>Votre espace professionnel</h2>
+
+    <div class="actions">
+      <a href="dashboard.html" class="btn gold">📄 Générer sa feuille allergènes</a>
+      <a href="https://www.allergozymelabel.com" target="_blank" class="btn gold">📍 Trouver son restaurant</a>
+      <a href="accueil.html" class="btn outline">🚪 Déconnexion</a>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 AllergoZyme</p>
+  </footer>
+
+  <script>
+    // Exemple : récupérer le nom d’établissement stocké dans localStorage
+    const restoName = localStorage.getItem("restaurantName") || "Votre établissement";
+    document.getElementById("restaurantName").textContent = restoName;
+  </script>
+</body>
+</html>

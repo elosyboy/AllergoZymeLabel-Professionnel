@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Inscription Professionnelle - AllergoZyme</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style-auth.css">
+</head>
+<body>
+  <header>
+    <img src="assets/logo-allergozyme.png" alt="Logo" class="logo">
+  </header>
+
+  <main class="auth-wrap">
+    <div class="card auth-card">
+      <h1>Adhésion — Informations professionnelles</h1>
+      <p class="lead">Remplissez ce formulaire pour finaliser votre adhésion. Les champs marqués d'une * sont obligatoires.</p>
+
+      <form id="signupForm" autocomplete="on" novalidate>
+        <div class="grid">
+          <label>
+            <span>Prénom *</span>
+            <input type="text" id="firstName" required>
+          </label>
+
+          <label>
+            <span>Nom *</span>
+            <input type="text" id="lastName" required>
+          </label>
+
+          <label>
+            <span>Email pro *</span>
+            <input type="email" id="email" required>
+          </label>
+
+          <label>
+            <span>Téléphone *</span>
+            <input type="tel" id="phone" required>
+          </label>
+
+          <label>
+            <span>Mot de passe *</span>
+            <input type="password" id="password" minlength="6" required>
+          </label>
+
+          <label>
+            <span>Nom de l'établissement *</span>
+            <input type="text" id="establishment" required>
+          </label>
+
+          <label>
+            <span>Type *</span>
+            <select id="type" required>
+              <option value="">Choisir...</option>
+              <option>Restaurant</option>
+              <option>Bar</option>
+              <option>Snack</option>
+              <option>Boulangerie</option>
+              <option>Traiteur</option>
+              <option>Autre</option>
+            </select>
+          </label>
+
+          <label id="otherTypeLabel" style="display:none;">
+            <span>Préciser (Autre)</span>
+            <input type="text" id="otherType">
+          </label>
+
+          <label>
+            <span>Adresse *</span>
+            <input type="text" id="address" required>
+          </label>
+
+          <label>
+            <span>Code postal *</span>
+            <input type="text" id="postal" required pattern="\\d{2,5}">
+          </label>
+
+          <label>
+            <span>Ville *</span>
+            <input type="text" id="city" required>
+          </label>
+
+          <label>
+            <span>Nombre d'établissements</span>
+            <input type="number" id="nbEtab" min="1" value="1">
+          </label>
+
+          <label>
+            <span>N° SIREN (optionnel)</span>
+            <input type="text" id="siren" pattern="\\d{9}" placeholder="9 chiffres">
+          </label>
+        </div>
+
+        <label class="consent">
+          <input type="checkbox" id="rgpd" required> J'accepte la <a href="#">politique de confidentialité</a> et la conservation temporaire des données (RGPD).
+        </label>
+
+        <label class="consent">
+          <input type="checkbox" id="webcamConsent"> J'accepte que la session QCM soit accompagnée d'un enregistrement webcam à des fins de contrôle.
+        </label>
+
+        <div class="form-actions">
+          <button type="submit" class="btn gold">Valider et passer au paiement</button>
+          <a href="accueil.html" class="btn outline">Retour</a>
+        </div>
+
+      </form>
+
+      <p class="note">Après validation, vous serez redirigé(e) vers la page de paiement correspondant à votre pack. Si vous n'avez pas choisi de pack auparavant, vous retournerez à la page d'adhésion.</p>
+    </div>
+  </main>
+
+  <footer class="auth-footer">
+    <p>&copy; 2025 AllergoZyme</p>
+  </footer>
+
+<script>
+/* Inscription — script inline pour stockage local + redirection */
+(function(){
+  const form = document.getElementById('signupForm');
+  const typeSelect = document.getElementById('type');
+  const otherLabel = document.getElementById('otherTypeLabel');
+
+  // show/hide "Autre" field
+  typeSelect.addEventListener('change', ()=> {
+    otherLabel.style.display = (typeSelect.value === 'Autre') ? 'block' : 'none';
+  });
+
+  // read pack param if present: ?pack=pack1|pack2|pack3
+  function getQueryParam(name){
+    const params = new URLSearchParams(window.location.search);
+    return params.get(name);
+  }
+  const pack = getQueryParam('pack'); // may be null
+
+  form.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    // simple validation
+    if(!form.checkValidity()){
+      alert('Merci de remplir correctement tous les champs requis.');
+      return;
+    }
+
+    const data = {
+      firstName: document.getElementById('firstName').value.trim(),
+      lastName: document.getElementById('lastName').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      password: document.getElementById('password').value,
+      establishment: document.getElementById('establishment').value.trim(),
+      type: typeSelect.value === 'Autre' ? document.getElementById('otherType').value.trim() : typeSelect.value,
+      address: document.getElementById('address').value.trim(),
+      postal: document.getElementById('postal').value.trim(),
+      city: document.getElementById('city').value.trim(),
+      nbEtab: parseInt(document.getElementById('nbEtab').value || '1', 10),
+      siren: document.getElementById('siren').value.trim(),
+      rgpd: document.getElementById('rgpd').checked,
+      webcamConsent: document.getElementById('webcamConsent').checked,
+      createdAt: new Date().toISOString()
+    };
+
+    // Save in localStorage (temporary auth store). In production, send to backend.
+    const key = 'agz_user_' + data.email;
+    localStorage.setItem(key, JSON.stringify(data));
+    // also set currently logged in user
+    localStorage.setItem('agz_current_user', data.email);
+    // store restaurant name for pageprincipal
+    localStorage.setItem('restaurantName', data.establishment);
+
+    // Redirection unique : après inscription → page des packs (adhesion.html).
+// Si un pack a été passé dans l'URL (?pack=pack1|pack2|pack3),
+// on le transmet pour pré-sélectionner la carte sur la page d’adhésion.
+const nextUrl = pack ? `adhesion.html?pack=${encodeURIComponent(pack)}` : 'adhesion.html';
+window.location.href = nextUrl;
+
+  });
+})();
+</script>
+</body>
+</html>

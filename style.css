@@ -1,0 +1,151 @@
+/* ==========================================
+   VARIABLES & BASE
+========================================== */
+:root {
+  --gold: #bfa13a;       /* doré principal */
+  --gold-dark: #a98c2f;  /* doré plus foncé pour hover */
+  --white: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body.login-body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  background: var(--white);      /* fond blanc pur */
+  color: var(--gold);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding: 60px 20px;
+}
+
+/* ==========================================
+   LOGO
+========================================== */
+.logo-container .logo {
+  max-width: 240px;               /* logo bien visible */
+  height: auto;
+  display: block;
+  margin-bottom: 50px;
+}
+
+/* ==========================================
+   BLOC CENTRAL (carte)
+========================================== */
+.login-box {
+  background: var(--white);
+  border: 2px solid var(--gold);
+  border-radius: 16px;
+  padding: 50px 40px;
+  text-align: center;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-box .title {
+  color: var(--gold);
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin: 0 0 25px;
+  letter-spacing: 1px;
+}
+
+.login-box .subtitle {
+  color: var(--gold);
+  font-size: 1.1rem;
+  margin: 0 0 40px;
+  line-height: 1.5;
+  max-width: 320px;
+}
+
+/* ==========================================
+   FORMULAIRE
+========================================== */
+#login-form {
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#login-form input {
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 25px;
+  border: 2px solid var(--gold);
+  border-radius: 8px;
+  font-size: 1rem;
+  color: var(--gold);
+  background: var(--white);
+  text-align: center;             /* texte centré dans la case */
+  outline: none;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+#login-form input:focus {
+  border-color: var(--gold-dark);
+  box-shadow: 0 0 6px var(--gold);
+}
+
+#login-form input::placeholder {
+  color: var(--gold);
+  opacity: 0.7;
+}
+
+#login-form button {
+  background: var(--gold);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  padding: 14px 30px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#login-form button:hover {
+  background: var(--gold-dark);
+  transform: translateY(-2px);
+}
+
+.error-msg {
+  color: red;
+  font-size: 0.95rem;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* ==========================================
+   RESPONSIVE : petit écran
+========================================== */
+@media (max-width: 480px) {
+  .login-box {
+    padding: 40px 25px;
+  }
+
+  .login-box .title {
+    font-size: 2rem;
+  }
+
+  .login-box .subtitle {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+
+  #login-form input,
+  #login-form button {
+    font-size: 1rem;
+  }
+}

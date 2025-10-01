@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Connexion - AllergoZyme</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style-auth.css">
+</head>
+<body>
+  <header>
+    <img src="assets/logo-allergozyme.png" alt="Logo" class="logo">
+  </header>
+
+  <main class="auth-wrap">
+    <div class="card auth-card">
+      <h1>Connexion</h1>
+      <p class="lead">Connectez-vous avec votre e-mail professionnel et mot de passe.</p>
+
+      <form id="loginForm" autocomplete="on">
+        <label>
+          <span>Email</span>
+          <input type="email" id="loginEmail" required>
+        </label>
+
+        <label>
+          <span>Mot de passe</span>
+          <input type="password" id="loginPassword" required>
+        </label>
+
+        <div class="form-actions">
+          <button type="submit" class="btn gold">Se connecter</button>
+          <a href="inscription.html" class="btn outline">S'inscrire</a>
+        </div>
+
+        <p id="loginError" class="error" style="display:none;"></p>
+      </form>
+    </div>
+  </main>
+
+  <footer class="auth-footer">
+    <p>&copy; 2025 AllergoZyme</p>
+  </footer>
+
+<script>
+(function(){
+  const form = document.getElementById('loginForm');
+  const error = document.getElementById('loginError');
+
+  form.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value.trim();
+    const pass = document.getElementById('loginPassword').value;
+
+    const key = 'agz_user_' + email;
+    const stored = localStorage.getItem(key);
+    if(!stored){
+      error.style.display='block';
+      error.textContent = 'Aucun compte trouvé pour cet email. Créez un compte.';
+      return;
+    }
+    const user = JSON.parse(stored);
+    if(user.password !== pass){
+      error.style.display='block';
+      error.textContent = 'Mot de passe incorrect.';
+      return;
+    }
+
+    // login OK
+    localStorage.setItem('agz_current_user', email);
+    localStorage.setItem('restaurantName', user.establishment || 'Votre établissement');
+
+    // redirect to page principal
+    window.location.href = 'pageprincipal.html';
+  });
+})();
+</script>
+</body>
+</html>

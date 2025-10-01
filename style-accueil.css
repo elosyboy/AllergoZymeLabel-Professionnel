@@ -1,0 +1,153 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Police et couleurs globales */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #fff;
+  color: #d4af37;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* Logo */
+header .logo {
+  width: 180px;
+  margin: 20px auto;
+  display: block;
+  animation: fadeIn 2s ease-in-out;
+}
+
+/* Section héro */
+.hero {
+  padding: 80px 20px;
+}
+.hero h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.8em;
+  margin-bottom: 15px;
+}
+.hero p {
+  font-size: 1.2em;
+  max-width: 700px;
+  margin: 0 auto 30px auto;
+  opacity: 0.85;
+}
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+.cta {
+  display: inline-block;
+  padding: 15px 40px;
+  background: #d4af37;
+  color: white;
+  font-weight: bold;
+  border-radius: 50px;
+  text-decoration: none;
+  font-size: 1.2em;
+  box-shadow: 0 0 15px rgba(212,175,55,0.7);
+  transition: 0.3s;
+}
+.cta:hover {
+  background: white;
+  color: #d4af37;
+  box-shadow: 0 0 25px rgba(212,175,55,1);
+}
+.cta.outline {
+  background: transparent;
+  border: 2px solid #d4af37;
+  color: #d4af37;
+}
+.cta.outline:hover {
+  background: #d4af37;
+  color: white;
+}
+
+/* Section explications */
+.explain {
+  padding: 60px 20px;
+}
+.explain h2 {
+  font-family: 'Orbitron', sans-serif;
+  margin-bottom: 40px;
+}
+.features {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+.card {
+  background: white;
+  border: 2px solid #d4af37;
+  border-radius: 15px;
+  padding: 20px;
+  width: 280px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.card h3 {
+  font-size: 1.4em;
+  margin-bottom: 10px;
+}
+.card p {
+  color: #a88d2b;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px rgba(212,175,55,0.5);
+}
+
+/* Section labellisation */
+.labelisation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  padding: 80px 20px;
+  flex-wrap: wrap;
+}
+.labelisation .label-image {
+  flex: 1;
+  text-align: center;
+}
+.labelisation .logo2-grand {
+  max-width: 380px;
+  border-radius: 12px;
+  box-shadow: 0 0 25px rgba(212,175,55,0.4);
+}
+.labelisation .label-text {
+  flex: 1;
+  max-width: 600px;
+  text-align: left;
+}
+.labelisation .label-text h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+.labelisation .label-text p {
+  font-size: 1.1em;
+  line-height: 1.7;
+  color: #a88d2b;
+}
+
+/* Footer */
+footer {
+  background: #f9f9f9;
+  color: #a88d2b;
+  padding: 20px;
+  font-size: 0.9em;
+  margin-top: 40px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

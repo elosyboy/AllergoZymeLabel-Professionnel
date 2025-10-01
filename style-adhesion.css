@@ -1,0 +1,105 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Base */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #fff;
+  color: #d4af37;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* Logo */
+header .logo {
+  width: 160px;
+  margin: 20px auto;
+  display: block;
+}
+
+/* Section packs */
+.packs {
+  padding: 60px 20px;
+}
+.packs h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.5em;
+  margin-bottom: 40px;
+}
+
+/* Container */
+.pack-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+/* Pack card */
+.pack-card {
+  background: white;
+  border: 2px solid #d4af37;
+  border-radius: 15px;
+  padding: 30px 20px;
+  width: 280px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.pack-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 25px rgba(212,175,55,0.6);
+}
+.pack-card h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.8em;
+  margin-bottom: 15px;
+}
+.pack-card .price {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+.pack-card ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  margin-bottom: 20px;
+}
+.pack-card ul li {
+  margin-bottom: 10px;
+  color: #a88d2b;
+  font-size: 1em;
+}
+
+/* Bouton */
+.cta {
+  display: inline-block;
+  padding: 12px 30px;
+  background: #d4af37;
+  color: white;
+  font-weight: bold;
+  border-radius: 40px;
+  text-decoration: none;
+  font-size: 1.1em;
+  box-shadow: 0 0 15px rgba(212,175,55,0.7);
+  transition: 0.3s;
+}
+.cta:hover {
+  background: white;
+  color: #d4af37;
+  box-shadow: 0 0 25px rgba(212,175,55,1);
+}
+
+/* Footer */
+footer {
+  background: #f9f9f9;
+  color: #a88d2b;
+  padding: 20px;
+  font-size: 0.9em;
+  margin-top: 40px;
+}

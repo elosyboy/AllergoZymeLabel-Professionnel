@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AllergoZyme – Feuille Allergènes</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="login-body">
+
+  <!-- Logo en haut -->
+  <div class="logo-container">
+    <img src="assets/logo-allergozyme.png" alt="Logo AllergoZyme" class="logo">
+  </div>
+
+  <!-- Bloc central -->
+  <div class="login-box">
+    <h1 class="title">Feuille Allergènes</h1>
+    <p class="subtitle">
+      Saisissez votre numéro d’accès pour créer votre tableau réglementaire.
+    </p>
+
+    <form id="login-form">
+      <input 
+        type="text" 
+        id="access-code" 
+        placeholder="Numéro d'accès" 
+        required 
+        autofocus
+      >
+      <button type="submit">Entrer</button>
+      <p id="error-msg" class="error-msg"></p>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

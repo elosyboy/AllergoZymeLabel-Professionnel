@@ -1,0 +1,39 @@
+/* style-auth.css - look futuriste blanc/doré */
+* { box-sizing: border-box; margin:0; padding:0; }
+body { font-family:'Poppins',sans-serif; background:#fff; color:#222; }
+header { text-align:center; padding:18px 0 6px; }
+header .logo { width:150px; display:inline-block; }
+
+/* wrapper */
+.auth-wrap { max-width:920px; margin:20px auto 60px; padding:20px; }
+.card { background:#fff; border:2px solid #d4af37; border-radius:14px; padding:26px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); }
+.auth-card h1 { font-family:'Orbitron',sans-serif; color:#d4af37; margin-bottom:6px; font-size:1.6rem; text-align:center; }
+.lead { text-align:center; color:#a88d2b; margin-bottom:14px; }
+
+/* grid form */
+.grid { display:grid; grid-template-columns: repeat(2, 1fr); gap:12px 18px; margin-bottom:8px; }
+label { display:block; font-size:0.95rem; color:#6b4f16; }
+label span { display:block; font-weight:600; margin-bottom:6px; color:#6b4f16; }
+input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="number"], select {
+  width:100%; padding:10px 12px; border-radius:8px; border:1px solid #e6d8b3; background:#fff; font-size:0.95rem;
+}
+
+/* single column fallback */
+@media (max-width:900px) { .grid { grid-template-columns: 1fr; } }
+
+/* consent */
+.consent { display:block; margin:12px 0; font-size:0.95rem; color:#6b4f16; }
+.consent input { margin-right:8px; }
+
+/* form actions */
+.form-actions { display:flex; gap:12px; justify-content:center; margin-top:12px; }
+.btn { padding:12px 26px; border-radius:999px; font-weight:700; text-decoration:none; border:none; cursor:pointer; }
+.btn.gold { background:#d4af37; color:#fff; box-shadow:0 8px 22px rgba(212,175,55,0.12); }
+.btn.outline { background:transparent; border:2px solid #d4af37; color:#d4af37; }
+
+/* helper text */
+.note { margin-top:12px; color:#a88d2b; font-size:0.92rem; text-align:center; }
+.error { color:#b12a2a; text-align:center; margin-top:10px; }
+
+/* footer */
+.auth-footer { text-align:center; color:#a88d2b; margin-top:22px; }

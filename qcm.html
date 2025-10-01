@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>QCM AllergoZyme — Evaluation</title>
+  <link rel="stylesheet" href="style-qcm.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <img src="assets/logo-allergozyme.png" alt="Logo AllergoZyme" class="logo">
+  </header>
+
+  <main class="container">
+    <h1>QCM — Vérification finale</h1>
+    <p class="subtitle">Durée : <strong>15 minutes</strong>. Réponses : <strong>Oui / Non</strong>. Vous avez <strong>2 tentatives</strong> maximum.</p>
+
+    <section class="consent">
+      <h2>Consentement à l'enregistrement</h2>
+      <p>
+        Pour garantir l'intégrité de l'évaluation, nous enregistrons une courte vidéo via votre webcam
+        pendant la durée du QCM. Cette vidéo vous permettra d'attester que le test a bien été réalisé
+        par la personne inscrite. Elle pourra être conservée temporairement pour contrôle administratif.
+      </p>
+      <p style="color:#a88d2b; margin-top:8px;">
+        En cliquant sur <strong>Démarrer le QCM</strong>, vous acceptez l'activation de la webcam et l'enregistrement.
+      </p>
+    </section>
+
+    <div class="recorder">
+      <video id="preview" autoplay muted playsinline></video>
+      <div class="controls">
+        <button id="startBtn" class="btn gold">Démarrer le QCM</button>
+        <span id="status">Statut : inactif</span>
+        <div class="timer">Temps restant : <span id="timer">15:00</span></div>
+      </div>
+    </div>
+
+    <form id="quizForm" class="quiz" style="display:none;">
+      <div id="questionsContainer"></div>
+
+      <div class="actions">
+        <button type="button" id="submitBtn" class="btn gold">Valider le QCM</button>
+      </div>
+    </form>
+
+    <section id="result" class="result" style="display:none;">
+      <h2>Résultat</h2>
+      <p id="scoreText"></p>
+      <div id="attemptsInfo"></div>
+
+      <div class="result-actions">
+        <button id="retryBtn" class="btn gold">Refaire le QCM (si autorisé)</button>
+        <a href="dashboard.html" id="toDashboard" class="btn outline">Aller au dashboard</a>
+      </div>
+
+      <div id="videoDownload" style="margin-top:18px;"></div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2025 AllergoZyme</p>
+  </footer>
+
+  <script src="qcm.js"></script>
+</body>
+</html>

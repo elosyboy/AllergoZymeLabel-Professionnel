@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AllergoZyme – Dashboard Allergènes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --ink: #111827; /* noir clair */
+      --ink-2: #374151; /* gris foncé */
+      --gold: #C9A227; /* doré chaleureux */
+      --gold-2: #E6C766; /* doré clair */
+      --beige: #F7F3EA; /* beige doux */
+      --beige-2: #EFE7D9; /* beige + marqué */
+      --line: #E5E7EB; /* gris clair séparateurs */
+      --success: #10B981;
+      --danger: #EF4444;
+    }
+    *{ box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0; background: var(--bg); color: var(--ink);
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    .app {
+      min-height: 100dvh; display: grid; grid-template-columns: 1fr 360px; gap: 24px; padding: 28px; background: var(--bg);
+    }
+    header { grid-column: 1 / -1; display: flex; align-items: center; gap: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+    .brand { display: flex; align-items: center; gap: 14px; }
+    .brand img { height: 48px; width: auto; }
+    .brand h1 { font-size: 22px; margin: 0; font-weight: 700; letter-spacing: .3px; color: var(--ink); }
+    .brand h1 span { color: var(--gold); }
+
+    .card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 18px; box-shadow: 0 8px 24px rgba(0,0,0,.04); }
+    .section-title { font-weight: 600; font-size: 14px; letter-spacing: .4px; text-transform: uppercase; color: var(--ink-2); margin-bottom: 12px; }
+
+    /* Left column */
+    .left { display: grid; gap: 18px; }
+
+    .input, .select, .btn, textarea, input[type="text"] {
+      font: inherit; border-radius: 12px; border: 1px solid var(--line); padding: 12px 14px; outline: none; background: #fff; color: var(--ink);
+      transition: border-color .2s, box-shadow .2s, transform .02s;
+    }
+    .input:focus, .select:focus, textarea:focus, input[type="text"]:focus { border-color: var(--gold); box-shadow: 0 0 0 4px rgba(201,162,39,.15); }
+
+    .btn { display: inline-flex; align-items: center; gap: 10px; border: 1px solid var(--gold); background: var(--gold); color: #1b1b1b; font-weight: 600; cursor: pointer; }
+    .btn.secondary { background: transparent; color: var(--gold); }
+    .btn.ghost { background: transparent; border-color: var(--line); color: var(--ink-2); }
+    .btn:active { transform: translateY(1px); }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .muted { color: var(--ink-2); font-size: 12px; }
+
+    .pill { display: inline-flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 999px; border: 1px solid var(--line); cursor: pointer; background: #fff; font-weight: 500; }
+    .pill.active { border-color: var(--gold); box-shadow: 0 0 0 4px rgba(201,162,39,.15); }
+    .square { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--line); background: var(--beige); color: var(--gold); font-weight: 700; }
+
+    .right .list { display: grid; gap: 10px; }
+    .item-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; padding: 10px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+    .item-row .title { font-weight: 600; }
+    .icon-btn { appearance: none; border: 1px solid var(--line); background: var(--beige); border-radius: 10px; padding: 8px; cursor: pointer; }
+
+    /* Allergen board */
+    .allergen-board { background: #fff; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; position: relative; }
+    .allergen-board .watermark { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
+    .allergen-board .watermark img { width: 60%; max-width: 700px; opacity: .06; filter: blur(0.4px); }
+
+    .table-wrap { position: relative; background: linear-gradient(0deg, var(--beige) 0%, #fff 120%); padding: 22px; }
+    .table-head { display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px; }
+    .table-head .logo-right img { height: 42px; opacity: .95; }
+    .table-title { text-align: left; }
+    .table-title h2 { margin: 0; font-size: 18px; font-weight: 700; color: var(--ink); }
+    .table-title p { margin: 4px 0 0; color: var(--ink-2); font-size: 12px; }
+
+    table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--beige-2); box-shadow: 0 10px 20px rgba(0,0,0,.05); }
+    th, td { border: 1px solid var(--beige-2); padding: 10px 12px; text-align: center; }
+    th { background: #f8f5ee; color: #5b4b1a; font-weight: 700; font-size: 12px; letter-spacing: .3px; text-transform: uppercase; }
+    td { font-size: 14px; }
+    tbody tr:nth-child(odd) td { background: #FFFCF5; }
+
+    .badge { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 12px; border: 1px solid var(--gold-2); color: #4c3b00; background: #FFF8E1; }
+
+    /* Allergens list UI */
+    .allergen-line { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px dashed var(--line); }
+    .allergen-line:last-child { border-bottom: 0; }
+    .tag { font-weight: 600; color: #4b5563; }
+    .toggle { display: inline-flex; gap: 6px; }
+    .chip { padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line); background: #fff; cursor: pointer; font-weight: 600; }
+    .chip.on { border-color: var(--gold); background: #FFF7D6; }
+
+    /* Helper boxes */
+    .helper { background: #fff; border: 1px dashed var(--gold-2); color: #6b7280; padding: 10px 12px; border-radius: 12px; font-size: 12px; }
+
+    /* Top step cards */
+    .step-card { display: grid; gap: 10px; }
+    .type-row { display: flex; flex-wrap: wrap; gap: 10px; }
+
+    .tiny-input { width: 220px; }
+
+    /* Actions footer */
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+    /* Print styles */
+    @media print {
+      body { background: #fff; }
+      .app { display: block; padding: 0; }
+      header, .left, .right { display: none; }
+      #print-area { display: block; }
+      .table-wrap { box-shadow: none !important; }
+    }
+
+    /* Hidden print area (filled at export) */
+    #print-area { display: none; padding: 24px; }
+
+  </style>
+  <!-- jsPDF + html2canvas for precise PDF export (fallback to window.print) -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="brand">
+        <img src="assets/logo-allergozyme.png" alt="Logo AllergoZyme" />
+        <h1><span>Allergo</span>Zyme — Tableau Allergènes</h1>
+      </div>
+    </header>
+
+    <!-- LEFT: Builder -->
+    <div class="left">
+      <div class="card step-card" id="step1-card">
+        <div class="section-title">1. Nom de l'établissement</div>
+        <input id="etabName" class="input" type="text" placeholder="Ex. Le Bistrot du Port" />
+        <div class="actions">
+          <button class="btn" id="confirmEtab">Valider le nom</button>
+          <button class="btn ghost" id="skipEtab">Passer</button>
+        </div>
+        <div class="helper">Le fond reste <b>blanc</b> avec une <b>typographie dorée</b> dans le tableau final.</div>
+      </div>
+
+      <div class="card step-card" id="step2-card" style="display:none">
+        <div class="section-title">2. Type d'élément</div>
+        <div class="type-row" id="typeRow">
+          <button class="pill" data-type="Entrée">Entrée</button>
+          <button class="pill" data-type="Plat">Plat</button>
+          <button class="pill" data-type="Dessert">Dessert</button>
+          <button class="pill" data-type="Néant">Néant</button>
+          <button class="pill" data-type="Autre">Autre</button>
+          <input id="customType" class="input tiny-input" style="display:none; border-color: var(--gold); background:#FFF8E1" placeholder="Ex. Boisson" />
+        </div>
+        <div class="helper">Choisissez « Autre » pour saisir un type personnalisé, ou « Néant » si vous ne souhaitez pas afficher de type.</div>
+      </div>
+
+      <div class="card step-card" id="step3-card" style="display:none">
+        <div class="section-title">3. Détail de l'élément</div>
+        <label class="muted" id="itemLabel">Nom du plat</label>
+        <input id="itemName" class="input" type="text" placeholder="Ex. Saumon grillé" />
+
+        <div class="section-title" style="margin-top:8px">Allergènes (UE – 14)</div>
+        <div id="allergenList" class="card" style="padding:0;">
+          <!-- Filled by JS: vertical lines with toggles -->
+        </div>
+        <div class="muted" style="margin-top:8px">Cliquez sur <b>Allergène</b> (mettra « X » dans le tableau) et/ou <b>Trace</b> (affichera « trace »).</div>
+
+        <div class="actions" style="margin-top:12px">
+          <button class="btn" id="addItemBtn"><span class="square">+</span> <span id="addItemText">Ajouter le plat</span></button>
+          <button class="btn secondary" id="addTypeBtn"><span class="square">+</span> Ajouter un type</button>
+          <button class="btn ghost" id="resetForm">Réinitialiser le formulaire</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">4. Export</div>
+        <div class="actions">
+          <button class="btn" id="exportPdf">Générer le PDF</button>
+          <button class="btn secondary" id="shareBtn">Partager…</button>
+        </div>
+        <div class="helper" style="margin-top:10px">
+          Le tableau final est en <b>tons beige/doré/noir clair</b>, avec le logo <b>AllergoZyme</b> en <b>grand filigrane</b> centré et en <b>haut‑droite</b> en normal.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: Summary -->
+    <aside class="right">
+      <div class="card">
+        <div class="section-title">Sélection (aperçu)</div>
+        <div id="summary" class="list"></div>
+        <div class="helper" style="margin-top:10px">Vous pouvez modifier ou supprimer chaque élément avant l'export PDF.</div>
+      </div>
+
+      <div class="card allergen-board" id="preview-board">
+        <div class="watermark">
+          <img src="assets/logo-allergozyme.png" alt="AllergoZyme watermark" />
+        </div>
+        <div class="table-wrap">
+          <div class="table-head">
+            <div class="table-title">
+              <h2 id="tableTitle">Tableau des allergènes</h2>
+              <p id="tableSubtitle" class="muted">Conforme à l'information consommateur (UE)</p>
+            </div>
+            <div class="logo-right"><img src="assets/logo-allergozyme.png" alt="AllergoZyme" /></div>
+          </div>
+          <div id="tableContainer"></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Hidden print/export area -->
+  <div id="print-area">
+    <div class="allergen-board">
+      <div class="watermark">
+        <img src="assets/logo-allergozyme.png" alt="AllergoZyme watermark" />
+      </div>
+      <div class="table-wrap">
+        <div class="table-head">
+          <div class="table-title">
+            <h2 id="printTitle">Tableau des allergènes</h2>
+            <p id="printSubtitle" class="muted">Conforme à l'information consommateur (UE)</p>
+          </div>
+          <div class="logo-right"><img src="assets/logo-allergozyme.png" alt="AllergoZyme" /></div>
+        </div>
+        <div id="printTable"></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  const ALLERGENS = [
+    "Gluten",
+    "Crustacés",
+    "Œufs",
+    "Poissons",
+    "Arachides",
+    "Soja",
+    "Lait",
+    "Fruits à coque",
+    "Céleri",
+    "Moutarde",
+    "Graines de sésame",
+    "Anhydride sulfureux & sulfites",
+    "Lupin",
+    "Mollusques"
+  ];
+
+  const state = {
+    etab: "",
+    currentType: "Plat",
+    items: [] // { id, type, name, marks: { allergenName: {X:bool, trace:bool} } }
+  };
+
+  // Elements
+  const step1 = document.getElementById('step1-card');
+  const step2 = document.getElementById('step2-card');
+  const step3 = document.getElementById('step3-card');
+  const etabName = document.getElementById('etabName');
+  const confirmEtab = document.getElementById('confirmEtab');
+  const skipEtab = document.getElementById('skipEtab');
+  const typeRow = document.getElementById('typeRow');
+  const customType = document.getElementById('customType');
+  const itemLabel = document.getElementById('itemLabel');
+  const itemName = document.getElementById('itemName');
+  const addItemBtn = document.getElementById('addItemBtn');
+  const addItemText = document.getElementById('addItemText');
+  const addTypeBtn = document.getElementById('addTypeBtn');
+  const resetForm = document.getElementById('resetForm');
+  const summary = document.getElementById('summary');
+  const tableContainer = document.getElementById('tableContainer');
+  const tableTitle = document.getElementById('tableTitle');
+  const tableSubtitle = document.getElementById('tableSubtitle');
+  const exportPdf = document.getElementById('exportPdf');
+  const shareBtn = document.getElementById('shareBtn');
+  const printArea = document.getElementById('print-area');
+  const printTitle = document.getElementById('printTitle');
+  const printSubtitle = document.getElementById('printSubtitle');
+  const printTable = document.getElementById('printTable');
+
+  // Build allergens UI lines
+  const allergenList = document.getElementById('allergenList');
+  function buildAllergenControls() {
+    allergenList.innerHTML = '';
+    ALLERGENS.forEach(name => {
+      const line = document.createElement('div');
+      line.className = 'allergen-line';
+      const label = document.createElement('div');
+      label.className = 'tag';
+      label.textContent = name;
+
+      const toggleA = document.createElement('button');
+      toggleA.className = 'chip';
+      toggleA.textContent = 'Allergène';
+      const toggleT = document.createElement('button');
+      toggleT.className = 'chip';
+      toggleT.textContent = 'Trace';
+
+      line.appendChild(label);
+      const wrap = document.createElement('div');
+      wrap.className = 'toggle';
+      wrap.appendChild(toggleA); wrap.appendChild(toggleT);
+      line.appendChild(wrap);
+
+      // Store states on dataset
+      line.dataset.name = name;
+      line.dataset.x = '0';
+      line.dataset.trace = '0';
+
+      toggleA.addEventListener('click', ()=>{
+        const on = line.dataset.x === '1';
+        line.dataset.x = on ? '0' : '1';
+        toggleA.classList.toggle('on', !on);
+      });
+      toggleT.addEventListener('click', ()=>{
+        const on = line.dataset.trace === '1';
+        line.dataset.trace = on ? '0' : '1';
+        toggleT.classList.toggle('on', !on);
+      });
+
+      allergenList.appendChild(line);
+    });
+  }
+  buildAllergenControls();
+
+  // Step 1 actions
+  function goStep2(){ step1.style.display = 'none'; step2.style.display = ''; step3.style.display = ''; }
+  confirmEtab.addEventListener('click', ()=>{
+    state.etab = etabName.value.trim();
+    goStep2();
+    refreshTitles();
+  });
+  skipEtab.addEventListener('click', ()=>{ state.etab = ''; goStep2(); refreshTitles(); });
+
+  // Types select
+  typeRow.addEventListener('click', (e)=>{
+    if(!(e.target instanceof HTMLElement)) return;
+    const btn = e.target.closest('[data-type]');
+    if(!btn) return;
+    [...typeRow.querySelectorAll('.pill')].forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const t = btn.getAttribute('data-type');
+    if(t === 'Autre'){
+      customType.style.display = '';
+      customType.focus();
+    } else {
+      customType.style.display = 'none';
+      state.currentType = t;
+      updateItemLabel();
+    }
+  });
+  customType.addEventListener('input', ()=>{
+    state.currentType = customType.value.trim() || 'Autre';
+    updateItemLabel();
+  });
+
+  function updateItemLabel(){
+    const isPlat = state.currentType.toLowerCase() === 'plat';
+    itemLabel.textContent = `Nom de ${state.currentType.toLowerCase()}`;
+    addItemText.textContent = isPlat ? 'Ajouter le plat' : 'Ajouter l\'élément';
+  }
+
+  addTypeBtn.addEventListener('click', ()=>{
+    step2.scrollIntoView({behavior:'smooth', block:'center'});
+  });
+
+  resetForm.addEventListener('click', ()=>{
+    itemName.value = '';
+    [...allergenList.children].forEach(line=>{
+      line.dataset.x = '0'; line.dataset.trace = '0';
+      line.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+    });
+  });
+
+  // Add item
+  addItemBtn.addEventListener('click', ()=>{
+    const name = itemName.value.trim();
+    if(!name){ itemName.focus(); return; }
+    const marks = {};
+    [...allergenList.children].forEach(line=>{
+      const key = line.dataset.name;
+      marks[key] = { X: line.dataset.x === '1', trace: line.dataset.trace === '1' };
+    });
+    state.items.push({ id: crypto.randomUUID(), type: state.currentType, name, marks });
+    itemName.value = '';
+    // reset toggles
+    [...allergenList.children].forEach(line=>{
+      line.dataset.x = '0'; line.dataset.trace = '0';
+      line.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+    });
+    renderSummary();
+    buildTables();
+  });
+
+  function renderSummary(){
+    summary.innerHTML = '';
+    if(state.items.length===0){
+      const p = document.createElement('div');
+      p.className = 'muted'; p.textContent = 'Aucun élément pour le moment.'; summary.appendChild(p); return;
+    }
+    state.items.forEach(it=>{
+      const row = document.createElement('div');
+      row.className = 'item-row';
+      const left = document.createElement('div');
+      left.innerHTML = `<div class="title">${escapeHtml(it.name)}</div><div class="muted">${escapeHtml(it.type)}</div>`;
+      const actions = document.createElement('div');
+      const edit = document.createElement('button'); edit.className='icon-btn'; edit.title='Modifier'; edit.innerHTML='✏️';
+      const del = document.createElement('button'); del.className='icon-btn'; del.title='Supprimer'; del.innerHTML='🗑️';
+      actions.appendChild(edit); actions.appendChild(del);
+      row.appendChild(left); row.appendChild(actions);
+
+      edit.addEventListener('click', ()=>editItem(it.id));
+      del.addEventListener('click', ()=>deleteItem(it.id));
+
+      summary.appendChild(row);
+    });
+  }
+
+  function editItem(id){
+    const it = state.items.find(x=>x.id===id); if(!it) return;
+    // Load into form
+    state.currentType = it.type; updateItemLabel();
+    [...typeRow.querySelectorAll('.pill')].forEach(b=>{
+      b.classList.toggle('active', b.getAttribute('data-type')===it.type);
+    });
+    if(!['Entrée','Plat','Dessert','Néant','Autre'].includes(it.type)){
+      // custom
+      [...typeRow.querySelectorAll('.pill')].forEach(b=>b.classList.remove('active'));
+      const otherBtn = [...typeRow.querySelectorAll('[data-type]')].find(b=>b.getAttribute('data-type')==='Autre');
+      otherBtn.classList.add('active'); customType.style.display=''; customType.value = it.type;
+    }
+    itemName.value = it.name;
+    [...allergenList.children].forEach(line=>{
+      const m = it.marks[line.dataset.name] || {X:false, trace:false};
+      line.dataset.x = m.X ? '1':'0'; line.dataset.trace = m.trace ? '1':'0';
+      const chips = line.querySelectorAll('.chip');
+      chips[0].classList.toggle('on', m.X);
+      chips[1].classList.toggle('on', m.trace);
+    });
+    // Remove item for re-add on save
+    state.items = state.items.filter(x=>x.id!==id);
+    renderSummary();
+    buildTables();
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  function deleteItem(id){
+    state.items = state.items.filter(x=>x.id!==id);
+    renderSummary();
+    buildTables();
+  }
+
+  function refreshTitles(){
+    const title = state.etab ? `Tableau des allergènes — ${state.etab}` : 'Tableau des allergènes';
+    tableTitle.textContent = title;
+    printTitle.textContent = title;
+    const sub = 'Conforme à l\'information consommateur (UE)';
+    tableSubtitle.textContent = sub; printSubtitle.textContent = sub;
+  }
+
+  function buildTables(){
+    // Build a square-like grid: rows = items, columns = Type, Nom, + 14 allergens
+    const headers = ['Type', 'Nom'].concat(ALLERGENS);
+    function render(where){
+      where.innerHTML = '';
+      const tbl = document.createElement('table');
+      const thead = document.createElement('thead');
+      const trh = document.createElement('tr');
+      headers.forEach(h=>{
+        const th = document.createElement('th'); th.textContent = h; trh.appendChild(th);
+      });
+      thead.appendChild(trh); tbl.appendChild(thead);
+
+      const tbody = document.createElement('tbody');
+      if(state.items.length===0){
+        const tr = document.createElement('tr');
+        const td = document.createElement('td'); td.colSpan = headers.length; td.innerHTML = '<span class="muted">Ajoutez des éléments à gauche pour les voir ici.</span>';
+        tr.appendChild(td); tbody.appendChild(tr);
+      } else {
+        state.items.forEach(it=>{
+          const tr = document.createElement('tr');
+          const tdType = document.createElement('td'); tdType.innerHTML = `<span class="badge">${escapeHtml(it.type)}</span>`; tr.appendChild(tdType);
+          const tdName = document.createElement('td'); tdName.textContent = it.name; tr.appendChild(tdName);
+          ALLERGENS.forEach(a=>{
+            const td = document.createElement('td');
+            const m = it.marks[a] || {X:false, trace:false};
+            let cell = '';
+            if(m.X) cell += 'X';
+            if(m.trace) cell += (cell?' + ':'') + 'trace';
+            td.textContent = cell;
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+      }
+      tbl.appendChild(tbody);
+      where.appendChild(tbl);
+    }
+    render(tableContainer);
+    render(printTable);
+  }
+
+  // Export PDF (jsPDF + html2canvas fallback)
+  exportPdf.addEventListener('click', async ()=>{
+    try {
+      const area = printArea.querySelector('.allergen-board');
+      // Temporarily show print area to capture accurate layout
+      printArea.style.display = 'block';
+      await new Promise(r=>setTimeout(r, 50));
+
+      const canvas = await html2canvas(area, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
+      const img = canvas.toDataURL('image/png');
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' });
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+      // Fit image inside page with margins
+      const margin = 24;
+      const imgW = pageW - margin*2;
+      const ratio = canvas.height / canvas.width;
+      const imgH = imgW * ratio;
+      const y = (pageH - imgH) / 2;
+      pdf.addImage(img, 'PNG', margin, Math.max(margin, y), imgW, imgH);
+      const filename = `Allergenes_${(state.etab||'Etablissement')}.pdf`;
+      pdf.save(filename);
+    } catch (e) {
+      console.error(e);
+      // Fallback to native print
+      window.print();
+    } finally {
+      printArea.style.display = 'none';
+    }
+  });
+
+  // Share (Web Share API)
+  shareBtn.addEventListener('click', async ()=>{
+    const title = state.etab ? `AllergoZyme – ${state.etab}` : 'AllergoZyme – Tableau Allergènes';
+    try {
+      if(navigator.share){
+        await navigator.share({ title, text: 'Tableau des allergènes généré via AllergoZyme.', url: location.href });
+      } else {
+        await navigator.clipboard.writeText(location.href);
+        alert('Lien copié. Vous pouvez le partager où vous voulez.');
+      }
+    } catch (e) { console.warn(e); }
+  });
+
+  function escapeHtml(str){
+    return str.replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[s]));
+  }
+
+  // Initialize defaults
+  // Activate Plat by default
+  const platBtn = [...typeRow.querySelectorAll('[data-type]')].find(b=>b.getAttribute('data-type')==='Plat');
+  platBtn?.classList.add('active');
+  updateItemLabel();
+  refreshTitles();
+  buildTables();
+})();
+</script>
+</body>
+</html>
