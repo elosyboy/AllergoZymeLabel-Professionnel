@@ -1,40 +1,81 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AllergoZyme – Feuille Allergènes</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AllergoZyme Label - Professionnel</title>
 
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Feuille de style dédiée à l'accueil -->
+  <link rel="stylesheet" href="style-accueil.css"/>
+
+  <!-- Polices -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
 </head>
-<body class="login-body">
-
-  <!-- Logo en haut -->
-  <div class="logo-container">
+<body>
+  <!-- Logo principal centré -->
+  <header>
     <img src="assets/logo-allergozyme.png" alt="Logo AllergoZyme" class="logo">
-  </div>
+  </header>
 
-  <!-- Bloc central -->
-  <div class="login-box">
-    <h1 class="title">Feuille Allergènes</h1>
-    <p class="subtitle">
-      Saisissez votre numéro d’accès pour créer votre tableau réglementaire.
-    </p>
+  <!-- Héro -->
+  <section class="hero">
+    <h1>AllergoZyme Label – Professionnel</h1>
+    <p>Un gage de confiance et de sécurité pour vos clients allergiques.<br>
+       Rejoignez le futur de la restauration responsable.</p>
+    <div class="hero-actions">
+      <a href="inscription.html" class="cta">Adhérer maintenant</a>
+      <a href="connexionpageprincipal.html" class="cta outline">Se connecter</a>
+    </div>
+  </section>
 
-    <form id="login-form">
-      <input 
-        type="text" 
-        id="access-code" 
-        placeholder="Numéro d'accès" 
-        required 
-        autofocus
-      >
-      <button type="submit">Entrer</button>
-      <p id="error-msg" class="error-msg"></p>
-    </form>
-  </div>
+  <!-- Pourquoi adhérer -->
+  <section class="explain">
+    <h2>Pourquoi adhérer ?</h2>
+    <div class="features">
+      <div class="card">
+        <h3>✔ Confiance</h3>
+        <p>Montrez à vos clients que leur sécurité est votre priorité.<br>
+        AllergoZyme propose des feuilles allergènes prêtes en moins de 15 minutes.</p>
+      </div>
+      <div class="card">
+        <h3>✔ Visibilité</h3>
+        <p>Apparaître sur la carte AllergoZyme Label Mondial et gagnez en notoriété.</p>
+      </div>
+      <div class="card">
+        <h3>✔ Certification</h3>
+        <p>Recevez votre certificat officiel et vos autocollants labellisés.</p>
+      </div>
+    </div>
+  </section>
 
-  <script src="script.js"></script>
+  <!-- Labellisation -->
+  <section class="labelisation">
+    <div class="label-image">
+      <img src="assets/logo2.png" alt="Logo Label AllergoZyme" class="logo2-grand">
+    </div>
+
+    <div class="label-text">
+      <h2>Labellisation professionnelle</h2>
+      <p>
+        Être labellisé AllergoZyme, c’est afficher un standard de qualité unique dans le secteur
+        de la restauration et de l’alimentation. Vous démontrez une maîtrise claire de l’affichage
+        des allergènes et une démarche proactive en faveur de la sécurité de vos clients.
+        <br><br>
+        Le processus est rapide et efficace : formation express (20–30 minutes), QCM (≈15 minutes),
+        score immédiat et certificat officiel à votre nom. Vous recevez également vos autocollants
+        officiels pour vos vitrines et vos supports de communication. Votre établissement peut être
+        affiché sur la carte publique AllergoZyme Label, consultée par des milliers de clients
+        allergiques à la recherche d’adresses fiables et responsables.
+        <br><br>
+        Adhérer, c’est valoriser votre image, renforcer la fidélité de vos clients, réduire les risques
+        liés aux allergies et vous distinguer durablement par la confiance et la transparence.
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 AllergoZyme. Tous droits réservés.</p>
+  </footer>
 </body>
 </html>
